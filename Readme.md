@@ -1,7 +1,7 @@
 # Личный проект «Шесть городов» [![Build status][travis-image]][travis-url]
 
-* Студент: [Кирилл Костиков](https://up.htmlacademy.ru/react/1/user/82178).
-* Наставник: [Константин Мамаев](https://htmlacademy.ru/profile/meison).
+* Студент: [Фаталиев Николай].
+* Наставник.
 
 ---
 
