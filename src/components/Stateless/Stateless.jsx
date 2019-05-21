@@ -1,13 +1,27 @@
 import React from 'react';
-import RentalObjects from '../RentalObjects/RentalObjects.jsx';
+import PropTypes from 'prop-types';
 
-const Stateless = () => {
-  const [titles] = React.useState([
-    `Beautiful & luxurious apartment at great location`,
-    `Wood and stone place`,
-    `Canal View Prinsengracht`,
-    `Nice, cozy, warm big bed apartment`,
-    `Wood and stone place`
+// Components
+import ListOffers from '../ListOffers/ListOffers';
+import Locations from '../Locations/Locations';
+
+const Stateless = (props) => {
+  const {state} = props;
+
+  //   const [titles] = React.useState([
+  //     `Beautiful & luxurious apartment at great location`,
+  //     `Wood and stone place`,
+  //     `Canal View Prinsengracht`,
+  //     `Nice, cozy, warm big bed apartment`,
+  //     `Wood and stone place`
+  //   ]);
+  const [cities] = React.useState([
+    `Paris`,
+    `Cologne`,
+    `Brussels`,
+    `Amsterdam`,
+    `Hamburg`,
+    `Dusseldorf`
   ]);
 
 
@@ -45,36 +59,11 @@ const Stateless = () => {
         <div className="cities tabs">
           <section className="locations container">
             <ul className="locations__list tabs__list">
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Paris</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Cologne</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Brussels</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item tabs__item--active">
-                  <span>Amsterdam</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Hamburg</span>
-                </a>
-              </li>
-              <li className="locations__item">
-                <a className="locations__item-link tabs__item" href="#">
-                  <span>Dusseldorf</span>
-                </a>
-              </li>
+              {
+                cities.map((city, index) => {
+                  return <Locations key={index} city={city} />;
+                })
+              }
             </ul>
           </section>
         </div>
@@ -107,11 +96,7 @@ const Stateless = () => {
 
               </form>
               <div className="cities__places-list places__list tabs__content">
-                {
-                  titles.map((title, index) => {
-                    return <RentalObjects key={index} title={title}/>;
-                  })
-                }
+                <ListOffers offers={state.offers} />
               </div>
             </section>
             <div className="cities__right-section">
@@ -123,6 +108,22 @@ const Stateless = () => {
       </main>
     </React.Fragment>
   );
+};
+
+Stateless.propTypes = {
+  state: PropTypes.shape({
+    offers: PropTypes.arrayOf(
+        PropTypes.shape({
+          id: PropTypes.number,
+          premium: PropTypes.bool,
+          srcImg: PropTypes.string,
+          price: PropTypes.number,
+          bookmarks: PropTypes.bool,
+          title: PropTypes.string,
+          type: PropTypes.oneOf([`Apartment`, `Private room`])
+        })
+    )
+  })
 };
 
 export default Stateless;

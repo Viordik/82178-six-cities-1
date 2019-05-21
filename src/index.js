@@ -1,8 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import Stateless from './components/Stateless/Stateless.jsx';
+
+// Components
+import Stateless from './components/Stateless/Stateless';
+
+// Mocks
+import offers from './mocks/offers';
+
+
+const state = {
+  offers
+};
 
 ReactDOM.render(
-    <Stateless />,
+    <Stateless state={state} />,
     document.getElementById(`root`)
 );
