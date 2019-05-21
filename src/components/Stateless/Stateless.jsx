@@ -4,26 +4,48 @@ import PropTypes from 'prop-types';
 // Components
 import ListOffers from '../ListOffers/ListOffers';
 import Locations from '../Locations/Locations';
+// import Maps from '../maps/Maps';
+import {Map} from '../Map/Map';
 
 const Stateless = (props) => {
   const {state} = props;
 
-  //   const [titles] = React.useState([
-  //     `Beautiful & luxurious apartment at great location`,
-  //     `Wood and stone place`,
-  //     `Canal View Prinsengracht`,
-  //     `Nice, cozy, warm big bed apartment`,
-  //     `Wood and stone place`
-  //   ]);
-  const [cities] = React.useState([
-    `Paris`,
-    `Cologne`,
-    `Brussels`,
-    `Amsterdam`,
-    `Hamburg`,
-    `Dusseldorf`
-  ]);
+  const cities = [
+    {
+      name: `Paris`,
+      location: [48.856663, 2.351556]
+    },
+    {
+      name: `Cologne`,
+      location: [50.930779, 6.938399]
+    },
+    {
+      name: `Brussels`,
+      location: [50.854283, 4.352131]
+    },
+    {
+      name: `Amsterdam`,
+      location: [52.38333, 4.9]
+    },
+    {
+      name: `Hamburg`,
+      location: [53.552645, 9.966287]
+    },
+    {
+      name: `Dusseldorf`,
+      location: [51.230569, 6.787428]
+    }
+  ];
 
+  const [activeCity, setActiveCity] = React.useState(cities[0]);
+
+  const offersLocations = state.offers.filter((offer) => offer.city === activeCity.name).map((offer) => offer.location);
+  const offersByCity = state.offers.filter((offer) => offer.city === activeCity.name);
+
+  const onChangeCity = (event, city) => {
+    event.preventDefault();
+    setActiveCity(city);
+  };
 
   return (
     <React.Fragment>
@@ -60,9 +82,9 @@ const Stateless = (props) => {
           <section className="locations container">
             <ul className="locations__list tabs__list">
               {
-                cities.map((city, index) => {
-                  return <Locations key={index} city={city} />;
-                })
+                cities.map((city) => (
+                  <Locations key={city.name} city={city} onClick={onChangeCity} />
+                ))
               }
             </ul>
           </section>
@@ -96,11 +118,11 @@ const Stateless = (props) => {
 
               </form>
               <div className="cities__places-list places__list tabs__content">
-                <ListOffers offers={state.offers} />
+                <ListOffers offers={offersByCity} />
               </div>
             </section>
             <div className="cities__right-section">
-              <section className="cities__map map"></section>
+              <Map locations={offersLocations} city={activeCity} zoom={12} />
             </div>
           </div>
         </div>
